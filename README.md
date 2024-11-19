@@ -1,7 +1,7 @@
 # Welcome to AlligatorX 
 <div align="center">
 <div>
-<img src="https://github.com/user-attachments/assets/2524a1eb-3fef-4577-a18e-f1dc528d5825" alt="Smiley" align="center">
+<img src="https://github.com/user-attachments/assets/692c9da1-0e9b-457f-ba08-93dcd58476b3" alt="Smiley" align="center">
 </div>
 </div>
 
