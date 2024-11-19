@@ -1,0 +1,52 @@
+name: Run Script on components Folder Change
+
+on:
+  push:
+    paths:
+      - "components/**"  # Trigger nếu bất kỳ file nào trong thư mục components thay đổi (check ok)
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Bước 1: Checkout code từ repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Bước 2: Cài đặt Node.js để chạy script liên quan đến React Native
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Hoặc phiên bản Node.js bạn cần
+
+      # Bước 3: Cài đặt các dependencies
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # Bước 4: Sử dụng Secret và Variable trong quá trình chạy script
+      - name: Run React Native script with secrets and variables
+        run: |
+          echo "Using secret key: [Hidden for security]"
+          echo "Build environment: ${{ vars.ALRX_BUILD_ENV }}"
+          
+          # Chạy script xử lý thư mục components
+          node scripts/specific-script.js
+          echo "Script executed successfully."
+        env:
+          ALRX_SECRET_KEY: ${{ secrets.ALRX_SECRET_KEY }}
+          ALRX_BUILD_ENV: ${{ vars.ALRX_BUILD_ENV }}
+
+      # Bước 5: Commit và push kết quả trở lại GitHub nếu có thay đổi
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Kiểm tra thay đổi trước khi commit
+          git add .
+          git diff --cached --exit-code || git commit -m "Automated update from GitHub Action: components folder change"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Đảm bảo có quyền push từ GitHub Actions
