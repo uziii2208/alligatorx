@@ -1,9 +1,16 @@
 # Welcome to AlligatorX 
+<div align="center">
+<div>
+<img src="https://github.com/user-attachments/assets/2524a1eb-3fef-4577-a18e-f1dc528d5825" alt="Smiley" align="center">
+</div>
+</div>
+
+```
 This is the journey of AlligatorX, created by three students from Ho Chi Minh City University of Industry and Trade (HUIT).
 Copyright @2024
-# Welcome to your Expo app 👋
+```
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+
 
 ## Get started
 
@@ -35,19 +42,13 @@ When you're ready, run:
 ```bash
 npm run reset-project
 ```
+## Infomation :
+ - GitHub Hoang Gia : [Follow link](https://github.com/uziii2208)
+ - GitHub Phuc Huy : [Follow link](https://github.com/huypnn2811)
+ - GitHub Ngoc Thang : [Follow link](https://github.com/uziii2208)
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/f6a6e4e5-50e6-41d1-81b8-986edaa1a30e" alt="GIF Image">
+</div>
 
-## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
