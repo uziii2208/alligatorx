@@ -1,0 +1,43 @@
+name: Update Timeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_timeline:
+    name: Update Timeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+      - name: Get commit details
+        id: commit_info
+        run: |
+          echo "commit_sha=$(git log -1 --pretty=format:'%H')" >> $GITHUB_ENV
+          echo "commit_author=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+          echo "commit_date=$(git log -1 --pretty=format:'%ad' --date=iso)" >> $GITHUB_ENV
+          echo "commit_message=$(git log -1 --pretty=format:'%s')" >> $GITHUB_ENV
+
+      - name: Update TIMELINE.md
+        run: |
+          TIMELINE_FILE="TIMELINE.md"
+          echo "### Commit Timeline" > $TIMELINE_FILE
+          echo "" >> $TIMELINE_FILE
+          echo "| Commit SHA | Author | Date | Message |" >> $TIMELINE_FILE
+          echo "|------------|--------|------|---------|" >> $TIMELINE_FILE
+          git log --pretty=format:"| \`%H\` | %an | %ad | %s |" --date=iso >> $TIMELINE_FILE
+
+      - name: Commit and push changes
+        run: |
+          git add TIMELINE.md
+          git commit -m "Update timeline for commit ${{ env.commit_sha }}"
+          git push
