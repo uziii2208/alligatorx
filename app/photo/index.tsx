@@ -4,48 +4,18 @@ import {
     Text,
     StyleSheet,
     Image,
-    TouchableOpacity,
-    Switch,
+    TouchableOpacity
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
-import RNFS from 'react-native-fs';
+import * as FileSystem from 'expo-file-system';
+import { encryptData, decryptData } from '@/utils/encryption';
 
-const encryptPhoto = async () => {
+
+export default function PhotoScreen() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const [isHidden, setIsHidden] = useState(false);
-
-    if (selectedImage) {
-        try {
-            // Define a new hidden path
-            const hiddenPath = `${RNFS.DocumentDirectoryPath}/hiddenPhoto.jpg`;
-
-            // Move the file to the hidden directory
-            await RNFS.moveFile(selectedImage, hiddenPath);
-
-            // Update the state to reflect the new location
-            setSelectedImage(hiddenPath);
-            setIsHidden(true);
-
-            alert('Photo hidden successfully.');
-        } catch (error) {
-            console.error('Error hiding photo:', error);
-            alert('Failed to hide photo.');
-        }
-    } else {
-        alert('No photo selected to hide!');
-    }
-};
-
-
-export default function Photoscreen() {
-    const [isLockEnabled, setIsLockEnabled] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [isHidden, setIsHidden] = useState(false); // Track hidden state
-
-    const route = useRouter();
-
-    const toggleLockMode = () => setIsLockEnabled((prevState) => !prevState);
+    const key = "123456";
+    const router = useRouter();
 
     const pickImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -59,85 +29,58 @@ export default function Photoscreen() {
             allowsEditing: true,
             quality: 1,
         });
-        const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
         if (!result.canceled) {
-            setSelectedImage(result.assets[0].uri);
-            setIsHidden(false); // Reset hidden state when a new photo is picked
+            const selectedAsset = result.assets[0];
+            setSelectedImage(selectedAsset.uri);
         }
     };
 
-    const encryptPhoto = () => {
-        if (selectedImage) {
-            setIsHidden(true); // Hide the image
-            alert('Photo hidden successfully.');
-        } else {
-            alert('No photo selected to hide!');
-        }
-    };
+    useEffect(() => {
+        copyImageToFolder
+    }, [selectedImage]);
 
-    const decryptPhoto = () => {
-        if (selectedImage && isHidden) {
-            setIsHidden(false); // Show the image
-            alert('Photo revealed successfully.');
-        } else if (!isHidden) {
-            alert('Photo is already visible!');
-        } else {
-            alert('No photo selected to reveal!');
+    const copyImageToFolder = async () => {
+        if (!selectedImage) {
+            alert('No photo selected to copy!');
+            return;
+        }
+
+        try {
+            const fileName = selectedImage.split('/').pop();
+            const newPath = `${FileSystem.documentDirectory}${fileName}`;
+
+            await FileSystem.copyAsync({
+                from: selectedImage,
+                to: newPath,
+            });
+
+            alert('Photo copied successfully to the folder.');
+        } catch (error) {
+            console.error('Error copying image:', error);
+            alert('Failed to copy the photo.');
         }
     };
 
     return (
         <View style={styles.container}>
-            {/* Top Notification */}
-            <View style={styles.notification}>
-                <Text style={styles.notificationText}>✅ Choose successfully !!!</Text>
-            </View>
+            {selectedImage ? (
+                <Image source={{ uri: selectedImage }} style={styles.profileImage} />
+            ) : (
+                <View style={[styles.profileImage]} />
+            )}
 
-            {/* Profile Picture */}
-            <View style={styles.profileContainer}>
-                {selectedImage && !isHidden ? (
-                    <Image source={{ uri: selectedImage }} style={styles.profileImage} />
-                ) : (
-                    <View style={[styles.profileImage, styles.hiddenImage]} />
-                )}
-            </View>
-
-            {/* Buttons */}
             <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
-                <Text style={styles.photoButtonText}>Photo</Text>
+                <Text style={styles.photoButtonText}>Select a photo</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 style={styles.documentButton}
-                onPress={() => {
-                    route.push('/documents');
-                }}
+                onPress={copyImageToFolder}
             >
-                <Text style={styles.documentButtonText}>Documents</Text>
+                <Text style={styles.documentButtonText}>Move to App library</Text>
             </TouchableOpacity>
 
-            {/* Lock Mode */}
-            <View style={styles.lockModeContainer}>
-                <Text style={styles.lockModeText}>Enable Lock Mode</Text>
-                <Switch
-                    value={isLockEnabled}
-                    onValueChange={toggleLockMode}
-                    thumbColor={isLockEnabled ? '#fff' : '#ccc'}
-                    trackColor={{ false: '#767577', true: '#4630EB' }}
-                />
-            </View>
-
-            {/* Encrypt & Decrypt Buttons */}
-            <TouchableOpacity style={styles.encryptButton} onPress={encryptPhoto}>
-                <Text style={styles.actionButtonText}>Encrypt</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.decryptButton} onPress={decryptPhoto}>
-                <Text style={styles.actionButtonText}>Decrypt</Text>
-            </TouchableOpacity>
-
-            {/* Footer */}
             <Text style={styles.footerText}>
                 Copyright ©2024 by AlligatorX. All rights reserved
             </Text>
@@ -167,9 +110,9 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     profileImage: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: '100%',
+        height: '80%',
+        borderRadius: 10,
         backgroundColor: '#ccc',
     },
     hiddenImage: {
@@ -180,8 +123,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 20,
         marginVertical: 10,
-        width: 150,
-        alignItems: 'center',
     },
     photoButtonText: {
         color: '#000',
@@ -218,6 +159,13 @@ const styles = StyleSheet.create({
     },
     decryptButton: {
         backgroundColor: '#FF3B30',
+        paddingVertical: 15,
+        paddingHorizontal: 50,
+        borderRadius: 10,
+        marginVertical: 10,
+    },
+    copyButton: {
+        backgroundColor: '#007AFF',
         paddingVertical: 15,
         paddingHorizontal: 50,
         borderRadius: 10,
