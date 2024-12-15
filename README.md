@@ -1,50 +1,74 @@
-# Welcome to your Expo app 👋
+# 📱 **AlligatorX Mobile Security App**
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## **Overview**
+AlligatorX is a mobile security application designed to protect sensitive user data through multi-layered encryption. Using **AES-256**, **SHA-256**, and **PBKDF2**, AlligatorX ensures that your documents, photos, and files remain secure from unauthorized access and internet-based threats.  
 
-## Get started
+With a strong focus on user privacy and security, AlligatorX prevents common attacks like brute force, dictionary attacks, and unauthorized device access.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## **Core Features**
+1. **AES-256 Encryption**  
+   - Encrypts all device data securely.  
+   - Combines the user's **PIN** and a **unique hardware key (UID)** embedded in the device.  
+   - Provides robust security against tampering or unauthorized modifications.
 
-2. Start the app
+2. **PBKDF2 (Password-Based Key Derivation Function 2)**  
+   - Derives secure encryption keys from weak PINs and random salt.  
+   - Hardens weak PINs against brute force and dictionary attacks.
 
-   ```bash
-    npx expo start
-   ```
+3. **SHA-256 Encryption**  
+   - Used for securing documents and files.  
+   - Prevents unauthorized access or leakage of sensitive data.
 
-In the output, you'll find options to open the app in a
+4. **Dual Access Mechanism**  
+   - **Anonymous Mode**: Allows app access with phone passcode only.  
+   - **User Mode**: Requires a password processed through PBKDF2 for full app functionality.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+5. **Encryption & Decryption**  
+   - Data can be encrypted and decrypted seamlessly, ensuring usability while maintaining security.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## **How It Works**
+1. An **anonymous user** can access the app using the device passcode.  
+2. A **registered user** needs an additional password (processed with PBKDF2) to unlock advanced features.  
+3. Sensitive data (e.g., documents and photos) is encrypted using **SHA-256** and stored securely.  
+4. Device data is encrypted with **AES-256**, ensuring both hardware-based and PIN protection.
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
+## **Technologies Used**
+- **AES-256**: Advanced Encryption Standard for device-wide data encryption.  
+- **PBKDF2**: Password key derivation for strengthening PIN-based authentication.  
+- **SHA-256**: Hashing algorithm for securing user documents.  
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## **Screenshots**  
+*Coming Soon*  
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## **Contributors**
+| Name           | GitHub Profile                               |
+|----------------|----------------------------------------------|
+| **Hoang Gia**  | [Follow link](https://github.com/uziii2208)  |
+| **Phuc Huy**   | [Follow link](https://github.com/huypnn2811) |
+| **Ngoc Thang** | [Follow link](https://github.com/uziii2208)  |
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## **License**
+© 2024 AlligatorX. All rights reserved.  
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## **Get Started**  
+1. Download and install AlligatorX on your mobile device.  
+2. Set a secure PIN and password for enhanced protection.  
+3. Start encrypting your sensitive data securely!
+
+---
+
+For feedback, issues, or contributions, please contact the contributors via GitHub.  
